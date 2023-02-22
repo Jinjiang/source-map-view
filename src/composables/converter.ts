@@ -25,6 +25,8 @@ export type PointInfo = {
 
 export type LineInfo = PointInfo[]
 
+export type MapInfo = LineInfo[]
+
 /**
  * [A-Z] ->  0-25,
  * [a-z] -> 26-51,
@@ -216,7 +218,7 @@ const parseMappingsString = (mappingsString: string, context: Context) => {
   return lines;
 }
 
-export const parse = (input: string, files: string[], keywords: string[]): LineInfo[] => {
+export const parse = (input: string, files: string[], keywords: string[]): MapInfo => {
   const context: Context = {
     generated: {
       line: 0,
