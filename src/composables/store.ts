@@ -1,19 +1,35 @@
+import type { File } from "./gist"
+
 import { computed, reactive, ref } from "vue"
 import { parse } from "./converter"
 import { GEN_KEY, SRC_KEY, getMappingsMap, Position } from "./finder"
-
-export type File = {
-  id: string
-  content: string
-}
+import { getGistFiles } from "./gist"
 
 // input
+
+const DEMO_GIST_HASH = "e8cc87f03acb0b9e80b48ebeca1a0520"
 
 export const sources = reactive<File[]>([])
 
 export const generated = ref<File>()
 
 export const map = ref<File>()
+
+export const init = async () => {
+  const hash = window.location.hash.slice(1) || DEMO_GIST_HASH
+  const files = await getGistFiles(hash)
+
+  const mapFile = files.find(file => file.id.endsWith(".map"))
+  map.value = mapFile
+
+  const generatedFileName = JSON.parse(mapFile?.content ?? "null")?.file
+  generated.value = files.find(file => file.id === generatedFileName)
+  files.forEach(file => {
+    if (file.id !== mapFile?.id && file.id !== generatedFileName) {
+      sources.push(file)
+    }
+  })
+}
 
 // state
 
@@ -31,7 +47,7 @@ export const mappings = computed<Map<string | typeof SRC_KEY | typeof GEN_KEY, P
     return new Map()
   }
 
-  const { mappings: mappingsString, files, names } = mapObject
+  const { mappings: mappingsString, sources: files, names } = mapObject
   const parsedResult = parse(mappingsString, files, names)
 
   return getMappingsMap(parsedResult, sourceIds, generatedId)
