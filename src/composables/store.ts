@@ -3,7 +3,7 @@ import type { File } from "./gist"
 import { computed, reactive, ref } from "vue"
 import { parse } from "./converter"
 import { GEN_KEY, SRC_KEY, getMappingsMap, Position } from "./finder"
-import { getGistFiles } from "./gist"
+import { getGistFiles, init as initGistApi } from "./gist"
 
 // input
 
@@ -16,6 +16,8 @@ export const generated = ref<File>()
 export const map = ref<File>()
 
 export const init = async () => {
+  await initGistApi()
+
   const hash = window.location.hash.slice(1) || DEMO_GIST_HASH
   const files = await getGistFiles(hash)
 
