@@ -1,0 +1,18 @@
+[
+  {
+    "id": "compiled.js",
+    "content": "function formatUrl(a){a.match(/^(http|https)\\:\\/\\//)||(a=\"http://\"+a);return a};formatUrl(window.location.href);\n"
+  },
+  {
+    "id": "compiled.map",
+    "content": "{\n  \"version\":3,\n  \"file\":\"compiled.js\",\n  \"lineCount\":1,\n  \"mappings\":\"AAAAA,QAASA,UAAS,CAACC,CAAD,CAAM,CAEfA,CAAAC,MAAA,CADQC,qBACR,CAAL,GACIF,CADJ,CACU,SADV,CACsBA,CADtB,CAGA,OAAOA,EALa,C,CCAxBD,SAAA,CAAUI,MAAAC,SAAAC,KAAV;\",\n  \"sources\":[\"script.js\",\"run.js\"],\n  \"names\":[\"formatUrl\",\"url\",\"match\",\"regexp\",\"window\",\"location\",\"href\"]\n}\n"
+  },
+  {
+    "id": "run.js",
+    "content": "formatUrl(window.location.href)\n"
+  },
+  {
+    "id": "script.js",
+    "content": "function formatUrl(url) {\n  var regexp = /^(http|https)\\:\\/\\//\n  if (!url.match(regexp)) {\n      url = 'http://' + url\n  }\n  return url\n}\n"
+  }
+]
