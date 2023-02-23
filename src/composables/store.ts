@@ -3,7 +3,13 @@ import type { File } from "./gist"
 import { computed, reactive, ref } from "vue"
 import { parse } from "./converter"
 import { GEN_KEY, SRC_KEY, getMappingsMap, Position } from "./finder"
-import { getGistFiles, init as initGistApi } from "./gist"
+import { getGistFiles, initAccessToken } from "./gist"
+
+// state
+
+export const loading = ref(true)
+
+export const currentMappingIndex = ref(-1)
 
 // input
 
@@ -16,7 +22,9 @@ export const generated = ref<File>()
 export const map = ref<File>()
 
 export const init = async () => {
-  await initGistApi()
+  loading.value = true
+
+  await initAccessToken()
 
   const hash = window.location.hash.slice(1) || DEMO_GIST_HASH
   const files = await getGistFiles(hash)
@@ -31,19 +39,27 @@ export const init = async () => {
       sources.push(file)
     }
   })
+
+  loading.value = false
 }
 
-// state
-
-export const currentMappingIndex = ref(-1)
+export const setHash = async (hash: string) => {
+  window.location.hash = hash
+  await init()
+}
 
 // computed output
 
-export const mappings = computed<Map<string | typeof SRC_KEY | typeof GEN_KEY, Position[]>>(() => {
+export const rawMappings = computed(() => {
   const mapContent = map.value?.content
+  const mapObject = JSON.parse(mapContent || "null")
+  return mapObject
+})
+
+export const mappings = computed<Map<string | typeof SRC_KEY | typeof GEN_KEY, Position[]>>(() => {
+  const mapObject = rawMappings.value
   const generatedId = generated.value?.id ?? ""
   const sourceIds = sources.map(source => source.id)
-  const mapObject = JSON.parse(mapContent || "null")
 
   if (!mapObject) {
     return new Map()
