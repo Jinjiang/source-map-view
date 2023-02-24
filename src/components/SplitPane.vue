@@ -9,7 +9,7 @@ const isVertical = computed(() => props.layout === 'vertical')
 const container = ref()
 
 // mobile only
-const showOutput = ref(false)
+const showGenerated = ref(false)
 
 const state = reactive({
   dragging: false,
@@ -52,7 +52,7 @@ function dragEnd() {
     class="split-pane"
     :class="{
       dragging: state.dragging,
-      'show-output': showOutput,
+      'show-output': showGenerated,
       vertical: isVertical
     }"
     @mousemove="dragMove"
@@ -73,8 +73,8 @@ function dragEnd() {
       <slot name="right" />
     </div>
 
-    <button class="toggler" @click="showOutput = !showOutput">
-      {{ showOutput ? '< Code' : 'Output >' }}
+    <button class="toggler" @click="showGenerated = !showGenerated">
+      {{ showGenerated ? '< Sources' : 'Generated >' }}
     </button>
   </div>
 </template>
@@ -96,7 +96,7 @@ function dragEnd() {
 .right {
   position: relative;
   height: 100%;
-  overflow-y: auto;
+  /* overflow-y: auto; */
 }
 .left {
   border-right: 1px solid var(--border);

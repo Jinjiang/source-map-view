@@ -25,6 +25,7 @@ init()
 <style>
 body {
   overflow: hidden;
+  margin: 0 auto;
 }
 </style>
 
