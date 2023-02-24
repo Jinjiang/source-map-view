@@ -14,7 +14,7 @@ const showPrompt = () => {
   <p>
     Just click a character on the generated file or source file to see the mapping on the other side.
   </p>
-  <h3>Try your own source map?</h3>
+  <!-- <h3>Try your own source map?</h3>
   <p>
     Save all the source files, generated file, and source map file as a GitHub Gist.
     Then <a href="#" @click.prevent="showPrompt">provide</a> the hash of the Gist to the playground.
@@ -27,5 +27,5 @@ const showPrompt = () => {
   <p>
     This playground is built by <a href="http://jinjiang.me/" target="_blank">Jinjiang</a>.
     Check out the source code on <a href="https://github.com/Jinjiang/source-map-view/" target="_blank">GitHub</a>.
-  </p>
+  </p> -->
 </template>
